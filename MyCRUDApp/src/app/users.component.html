@@ -1,3 +1,6 @@
+<h1>Users</h1>
+<button class="btn btn-primary" (click)="add()" >Add</button>
+
 <table class="table">
     <thead>
       <tr>
@@ -9,18 +12,18 @@
     </thead>
     <tbody>
       <tr *ngFor="let user of users | async">
-        <td>{{user.name}}</td>
-        <td>{{user.email}}</td>
+        <td>{{user.data.name}}</td>
+        <td>{{user.data.email}}</td>
         <td>
-            <a>
+            <a [routerLink]="['/add',user.id]">
                 <i class="fa-solid fa-pen-to-square"></i>
             </a>
         </td>
         <td>
             <a>
-                <i class="fa-solid fa-trash-can"></i>
+                <i (click)="delete(user.id,user.data.name)" class="fa-solid fa-trash-can"></i>
             </a>
         </td>
-      </tr>      
+      </tr>
     </tbody>
 </table>

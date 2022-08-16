@@ -15,7 +15,10 @@ import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 
 import { UsersComponent } from './users.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { UserFormComponent } from './user-form.component';
 
+// Init firebase Data
 const firebaseConfig = {
   apiKey: "AIzaSyA96OF-DDvARZAiXkahLjah_fZclga--A8",
   authDomain: "mycrudapp-e3e80.firebaseapp.com",
@@ -28,7 +31,7 @@ const firebaseConfig = {
 
 @NgModule({
   declarations: [
-    AppComponent,UsersComponent
+    AppComponent,UsersComponent,UserFormComponent
   ],
   imports: [
     BrowserModule,
@@ -37,8 +40,8 @@ const firebaseConfig = {
     AppRoutingModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore())
-
+    provideFirestore(() => getFirestore()),
+    ReactiveFormsModule
 
   ],
   providers: [],
