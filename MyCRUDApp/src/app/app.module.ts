@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
@@ -17,6 +16,11 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { UsersComponent } from './users.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserFormComponent } from './user-form.component';
+
+// Login
+import { AngularFireAuthModule } from "@angular/fire/compat/auth";
+import { LoginComponent } from './login.component';
+import { LoginService } from './login.service';
 
 // Init firebase Data
 const firebaseConfig = {
@@ -31,7 +35,7 @@ const firebaseConfig = {
 
 @NgModule({
   declarations: [
-    AppComponent,UsersComponent,UserFormComponent
+    AppComponent,UsersComponent,UserFormComponent,LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +48,7 @@ const firebaseConfig = {
     ReactiveFormsModule
 
   ],
-  providers: [],
+  providers: [LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
