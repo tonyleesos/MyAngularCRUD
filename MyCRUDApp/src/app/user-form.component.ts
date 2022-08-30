@@ -4,6 +4,7 @@ import { Router,ActivatedRoute } from '@angular/router';
 import { AngularFirestore,AngularFirestoreCollection,AngularFirestoreDocument } from "@angular/fire/compat/firestore";
 import { User } from "./user";
 import { Observable } from "rxjs";
+import { LoginService } from "./login.service";
 
 @Component({
   selector: 'user-form',
@@ -19,7 +20,7 @@ export class UserFormComponent {
   userDoc:AngularFirestoreDocument<User> | undefined;
   singleUser:Observable<any> | undefined;
 
-  constructor(fb:FormBuilder, private _router:Router, private afs:AngularFirestore,private _route:ActivatedRoute){
+  constructor(fb:FormBuilder, private _router:Router, private afs:AngularFirestore,private _route:ActivatedRoute,private _loginService:LoginService){
     this.form = fb.group({
       name:['',Validators.required],
       email:['',Validators.required]
@@ -39,7 +40,7 @@ export class UserFormComponent {
     else{
       // 帶入DB資料到html
       this.title = "Edit User";
-      this.userDoc = this.afs.doc('users/'+this.id);
+      this.userDoc = this.afs.doc('users/'+this._loginService.loggedInUser+"/clients/"+this.id);
       this.singleUser = this.userDoc.valueChanges();
       this.singleUser?.subscribe(user=>{
         this.form.get('name')?.setValue(user.name);
@@ -52,19 +53,18 @@ export class UserFormComponent {
   submit(){
     if(this.id){
       // 編輯
-      this.afs.doc('users/'+this.id).update({
+      this.afs.doc('users/'+this._loginService.loggedInUser+"/clients/"+this.id).update({
         name:this.user.name,
         email:this.user.email
       });
     }
     else{
       // 新增
-      this.afs.collection('users').add({
+      this.afs.collection('users').doc(this._loginService.loggedInUser).collection("clients").add({
         name:this.user.name,
         email:this.user.email
       })
     }
-
 
     this._router.navigate(['']);
   }

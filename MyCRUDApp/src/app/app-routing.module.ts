@@ -6,14 +6,21 @@ import { UserFormComponent } from './user-form.component';
 
 //登入頁面
 import { LoginComponent } from './login.component';
+//註冊頁面
+import { SignupComponent } from './signup/signup.component';
+//route守護機制
+import { AuthGuard } from './auth.guard';
 
 // router path
 const routes: Routes = [
-  {path:'',component:UsersComponent},
-  {path:'add',component:UserFormComponent},
-  {path:'add/:id',component:UserFormComponent},
+  // route guard 只應用於主頁面，新增和編輯使用者頁面
+  {path:'',component:UsersComponent,canActivate:[AuthGuard]},
+  {path:'add',component:UserFormComponent,canActivate:[AuthGuard]},
+  {path:'add/:id',component:UserFormComponent,canActivate:[AuthGuard]},
   {path:'login',component:LoginComponent},
   {path:'login/:inValidLoginMessage',component:LoginComponent},
+  {path:'signup',component:SignupComponent },
+  {path:'signup/:inValidLoginMessage',component:SignupComponent }
 ];
 
 @NgModule({

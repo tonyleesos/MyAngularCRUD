@@ -1,3 +1,4 @@
+import { LoginService } from './login.service';
 import { UnaryOperator } from "@angular/compiler";
 import { Component } from "@angular/core";
 import { AngularFirestore,AngularFirestoreCollection,AngularFirestoreDocument } from "@angular/fire/compat/firestore";
@@ -17,12 +18,13 @@ interface User{
 export class UsersComponent {
   usersCol:AngularFirestoreCollection<User> | undefined;
   users:any;
-  constructor(private afs:AngularFirestore, private _router:Router) {
+  userEmail:any;
+  constructor(private afs:AngularFirestore, private _router:Router,private _loginService:LoginService) {
       console.log(afs);
   }
 
   ngOnInit(){
-      this.usersCol = this.afs.collection('users');
+      this.usersCol = this.afs.collection('users/'+this._loginService.loggedInUser+'/clients');
       //this.users = this.usersCol.valueChanges();
       //抓取ID數據
       this.users = this.usersCol.snapshotChanges().pipe(
@@ -35,6 +37,8 @@ export class UsersComponent {
         })
       )
 
+      this.userEmail = this._loginService.UserEmail;
+
   }
 
   add(){
@@ -43,7 +47,7 @@ export class UsersComponent {
 
   delete(id: string, name: string){
     if(confirm("你確定要刪除"+name+"嗎?")){
-      this.afs.doc('users/'+id).delete();
+      this.afs.doc('users/'+this._loginService.loggedInUser+"/clients/"+id).delete();
     }
   }
 

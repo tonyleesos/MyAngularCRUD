@@ -21,6 +21,8 @@ import { UserFormComponent } from './user-form.component';
 import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { LoginComponent } from './login.component';
 import { LoginService } from './login.service';
+import { SignupComponent } from './signup/signup.component';
+import { AuthGuard } from './auth.guard';
 
 // Init firebase Data
 const firebaseConfig = {
@@ -35,7 +37,7 @@ const firebaseConfig = {
 
 @NgModule({
   declarations: [
-    AppComponent,UsersComponent,UserFormComponent,LoginComponent
+    AppComponent,UsersComponent,UserFormComponent,LoginComponent, SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +50,7 @@ const firebaseConfig = {
     ReactiveFormsModule
 
   ],
-  providers: [LoginService],
+  providers: [LoginService,AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
